@@ -8,6 +8,8 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+
+	"github.com/go-chi/chi/v5"
 )
 
 // NewControllerSellers creates a new controller for sellers
@@ -34,19 +36,19 @@ type ResponseBodyGetById struct {
 func (c *ControllerSellers) GetById() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// request
-		idParam, err := request.PathLastParam(r)
-		if err != nil {
-			code := http.StatusBadRequest
-			body := &ResponseBodyGetById{
-				Message: "bad request",
-				Data:    nil,
-				Error:   true,
-			}
+		// idParam, err := request.PathLastParam(r)
+		// if err != nil {
+		// 	code := http.StatusBadRequest
+		// 	body := &ResponseBodyGetById{
+		// 		Message: "bad request",
+		// 		Data:    nil,
+		// 		Error:   true,
+		// 	}
 
-			response.JSON(w, code, body)
-			return
-		}
-		id, err := strconv.Atoi(idParam)
+		// 	response.JSON(w, code, body)
+		// 	return
+		// }
+		id, err := strconv.Atoi(chi.URLParam(r, "id"))
 		if err != nil {
 			code := http.StatusBadRequest
 			body := &ResponseBodyGetById{

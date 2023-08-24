@@ -4,12 +4,14 @@ import (
 	"app/internal/sellers"
 	"app/internal/sellers/repository"
 	"app/internal/sellers/storage"
+	"context"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/require"
 )
 
@@ -36,6 +38,22 @@ func TestIntegration_ControllerSellers_GetByID(t *testing.T) {
 
 		// act
 		inputR := httptest.NewRequest("GET", "/sellers/1", nil)
+		
+		rCtx := chi.NewRouteContext()
+		rCtx.URLParams.Add("id", "1")
+
+		inputR = inputR.WithContext(
+			context.WithValue(
+				inputR.Context(),
+				chi.RouteCtxKey,
+				rCtx,
+			),
+		)
+		// inputR.ctx = context.WithValue(
+		// 	inputR.ctx,
+		// 	"id",
+		// 	"1",
+		// )
 		inputW := httptest.NewRecorder()
 		hd(inputW, inputR)
 
@@ -62,6 +80,17 @@ func TestIntegration_ControllerSellers_GetByID(t *testing.T) {
 
 		// act
 		inputR := httptest.NewRequest("GET", "/sellers/1", nil)
+
+		rCtx := chi.NewRouteContext()
+		rCtx.URLParams.Add("id", "1")
+
+		inputR = inputR.WithContext(
+			context.WithValue(
+				inputR.Context(),
+				chi.RouteCtxKey,
+				rCtx,
+			),
+		)
 		inputW := httptest.NewRecorder()
 		hd(inputW, inputR)
 
@@ -88,6 +117,17 @@ func TestIntegration_ControllerSellers_GetByID(t *testing.T) {
 
 		// act
 		inputR := httptest.NewRequest("GET", "/sellers/1", nil)
+
+		rCtx := chi.NewRouteContext()
+		rCtx.URLParams.Add("id", "1")
+
+		inputR = inputR.WithContext(
+			context.WithValue(
+				inputR.Context(),
+				chi.RouteCtxKey,
+				rCtx,
+			),
+		)
 		inputW := httptest.NewRecorder()
 		hd(inputW, inputR)
 
@@ -134,6 +174,17 @@ func TestIntegration_ControllerSellers_GetByID(t *testing.T) {
 
 		// act
 		inputR := httptest.NewRequest("GET", "/sellers/abc", nil)
+
+		rCtx := chi.NewRouteContext()
+		rCtx.URLParams.Add("id", "abc")
+
+		inputR = inputR.WithContext(
+			context.WithValue(
+				inputR.Context(),
+				chi.RouteCtxKey,
+				rCtx,
+			),
+		)
 		inputW := httptest.NewRecorder()
 		hd(inputW, inputR)
 
